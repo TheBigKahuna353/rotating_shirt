@@ -1,103 +1,49 @@
-import { useEffect, useRef, useState } from 'react'
-import { useGSAP } from '@gsap/react'
+import NavBar from "../components/NavBar"
+import CSS from 'csstype'
+import * as panelData from "../homepageText"
+import CollapsablePanel from "../components/CollapsablePanel"
 
-import { Model } from '../model'
-import { Tab1, Tab2, Tab3, Header } from '../containers'
-import { reader, doGsap } from '../helper'
-import { Irgb } from '../types'
+const data = [panelData.getOne(), panelData.getTwo(), panelData.getThree(), panelData.getFour(), panelData.getFive(), 
+    panelData.getSix(), panelData.getSeven(), panelData.getEight(), panelData.getNine(), panelData.getTen()
+]
 
 const Home = () => {
-	const [isMobile, setIsMobile] = useState(false)
-	const [color, setColor] = useState({ r: 19, g: 97, b: 189 })
-	const [isLogo, setIsLogo] = useState(true)
-	const [isFull, setIsFull] = useState(false)
-	const [logoS, setLogoS] = useState(0)
-	const [logoP, setLogoP] = useState(2)
-	const [logo, setLogo] = useState('./logo.png')
-	const [full, setFull] = useState('./full.jpg')
-	const [file, setFile] = useState<File | null>(null)
-	const [img, setImg] = useState<string | null>(null)
 
-	const tref = useRef(null)
+    const container: CSS.Properties = {
+        justifyContent: 'center',
+        alignItems: 'center',
+        display: 'flex',
+        fontFamily: "Lucida Handwriting, cursive", /* Change the font family */
+        margin: "5px", /* Add some margin */
+        fontSize: "2vw", /* Change the font size */
 
-	useEffect(() => {
-		if (file) {
-			reader(file).then((result) => setImg(result))
-		}
-	}, [file])
+        color: "#F7F9FC", /* Change the text color */
+    }
 
-	const handleLogo = () => {
-		setIsLogo(!isLogo)
-	}
-	const handleFull = () => {
-		setIsFull(!isFull)
-	}
+    const image: CSS.Properties = {
+        width: "68%",
+        height: "auto"
+    }
 
-	const handleLogoP = (ind: number) => {
-		setLogoP(ind)
-	}
-	const handleLogoS = (ind: number) => {
-		setLogoS(ind)
-	}
+    const URL = import.meta.env.BASE_URL
 
-	const changeColor = (rgb: Irgb) => {
-		setColor({ r: rgb.r, g: rgb.g, b: rgb.b })
-	}
-
-	useEffect(() => {
-		if (window.innerWidth < 768) setIsMobile(true)
-	}, [])
-
-	useGSAP(() => {
-		doGsap(tref)
-	})
-
-	const checkScreen = () => {
-		if (window.innerWidth < 768) setIsMobile(true)
-		else setIsMobile(false)
-	}
-
-	window.addEventListener('resize', checkScreen)
-
-	return (
-		<main className="h-screen overflow-hidden bg-center bg-main-img">
-			<section ref={tref} className="h-full">
-				<Model
-					isMobile={isMobile}
-					color={color}
-					logo={logo}
-					isLogo={isLogo}
-					full={full}
-					isFull={isFull}
-					logoP={logoP}
-					logoS={logoS}
-				/>
-			</section>
-			<Header color={color} />
-			<Tab1
-				color={color}
-				handleLogo={handleLogo}
-				handleFull={handleFull}
-				isLogo={isLogo}
-				isFull={isFull}
-			/>
-			<Tab2
-				changeColor={changeColor}
-				color={color}
-				setFile={setFile}
-				img={img}
-				setLogo={setLogo}
-				setFull={setFull}
-			/>
-			<Tab3
-				color={color}
-				logoS={logoS}
-				logoP={logoP}
-				handleLogoP={handleLogoP}
-				handleLogoS={handleLogoS}
-			/>
-		</main>
-	)
+    return (
+        <div>
+            <NavBar />
+            <div style={container}>
+                A revolution in common sense
+            </div>
+            {data.map((item, index) => {
+                return (
+                    <div key={index}>
+                        <img src={URL + "/" + item.image} style={image}/>
+                        <CollapsablePanel data={{title: item.title, content: item.content}} />
+                    </div>
+                )
+            })}
+        </div>
+    )
 }
+
 
 export default Home

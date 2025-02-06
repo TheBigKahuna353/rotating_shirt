@@ -1,6 +1,5 @@
 import { Dispatch } from 'react'
 
-import { Button4 } from '.'
 import { Irgb } from '../types'
 
 const FilePicker = ({
@@ -72,20 +71,6 @@ const FilePicker = ({
 				)}
 			</div>
 			<div>
-				<Button4
-					color={color}
-					text={'Logo'}
-					ind={1}
-					active={enLogo}
-					handleClick={handleClick}
-				/>
-				<Button4
-					color={color}
-					text={'Full'}
-					ind={2}
-					active={enFull}
-					handleClick={handleClick}
-				/>
 			</div>
 		</section>
 	)

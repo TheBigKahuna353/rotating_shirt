@@ -3,7 +3,6 @@ import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 
 import { Tshirt } from './'
-import { Loader } from '../containers'
 import { Irgb } from '../types'
 
 const Model = ({
@@ -34,8 +33,8 @@ const Model = ({
 				position: [0, 5, 20],
 			}}
 		>
-			<Suspense fallback={<Loader />}>
-				<hemisphereLight groundColor={'#111'} intensity={0.01} />
+			<Suspense>
+				<hemisphereLight groundColor={'#111'} intensity={0.02} />
 				<Tshirt
 					logo={logo}
 					full={full}

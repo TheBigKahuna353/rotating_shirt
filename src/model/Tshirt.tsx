@@ -26,15 +26,15 @@ const Tshirt = ({
 }) => {
 	const { nodes, materials } = useGLTF(modelGltf) as any
 
-	const logoTex = useTexture(logo)
-	const fullTex = useTexture(full)
+	const logoTex = isLogo ? useTexture(logo) : null
+	//const fullTex = useTexture(full)
 
 	useEffect(() => {
 		console.log('logo:', logo)
 	}, [logo])
 
-	fullTex.colorSpace = THREE.SRGBColorSpace
-	logoTex.colorSpace = THREE.SRGBColorSpace
+	//fullTex.colorSpace = THREE.SRGBColorSpace
+	if (logoTex) logoTex!.colorSpace = THREE.SRGBColorSpace
 
 	useEffect(() => {
 		if (color.r < 5 && color.g < 5 && color.b < 5) {
@@ -67,7 +67,7 @@ const Tshirt = ({
 			case 1:
 				return 0.12
 			case 2:
-				return 0.17
+				return 0.25
 		}
 	}
 
@@ -84,17 +84,16 @@ const Tshirt = ({
 			>
 				{isFull && (
 					<Decal position={[0, 0, 0]} rotation={[0, 0, 0]} scale={1}>
-						<meshBasicMaterial map={fullTex} />
+						{/* <meshBasicMaterial map={fullTex} /> */}
 					</Decal>
 				)}
 				{isLogo && (
 					<Decal
-						position={[genP(), 0.08, 0.13]}
-						rotation={[0, 0, 0]}
+						position={[genP(), 0.02, 0.20]}
+						rotation={[0, 0, 0.0]}
 						scale={genS()}
-						map={logoTex}
+						map={logoTex ? logoTex : undefined}
 						depthTest={true}
-						// depthWrite={true}
 					/>
 				)}
 			</mesh>
